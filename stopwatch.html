@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#button_type_timer").click(function(){
+            $("#stop_watch").hide();
+            $("#timer").show();
+            });
+            $("#button_type_stop_watch").click(function(){
+            $("#timer").hide();
+            $("#stop_watch").show();
+            });
+        });
+</script>
+
+</head>
+<body class="theme-light">
+<div>
+    <div class="container">
+        <div id= "stop_watch">
+            <h3> Stop Watch </h3>
+            <h1><time>00:00</time></h1>
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+            <button id="clear">Clear</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        width:380px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    h3 {
+        font-family: "Century Gothic"; 
+        margin-left: auto;
+        margin-right: auto;
+        text align: center;
+        font-size: 420%;
+    }
+
+</style>
+
+<script>
+var h1 = document.getElementsByTagName('h1')[0],
+    start = document.getElementById('start'),
+    stop = document.getElementById('stop'),
+    clear = document.getElementById('clear'),
+    seconds = 0, minutes = 0, 
+    t;
+
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+    }
+    
+    h1.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    timer();
+}
+function timer() {
+    t = setTimeout(add, 1000);
+}
+
+start.onclick = timer;
+
+stop.onclick = function() {
+    clearTimeout(t);
+}
+
+clear.onclick = function() {
+    h1.textContent = "00:00";
+    seconds = 0; minutes = 0;
+}
+
+$(document).ready(function(){
+            $("#stop").hide();
+            $("#start").click(function(){
+            $("#start").hide();
+            $("#stop").show();
+            $("#clear").show();
+            });
+            $("#stop").click(function(){
+            $("#stop").hide();
+            $("#start").show();
+            $("#clear").show();
+            });
+            $("#clear").click(function(){
+            $("#start").show();
+            $("#clear").show();
+            });
+
+        });
+</script>
+</body>
+</html>
