@@ -1,10 +1,150 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Timer</title>
+    <meta charset="utf-8" />
+    <link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var clear = $('#clear'), seconds = 0, minutes = 0, t;
+            $("#stop_watch").hide();
+            $("#button_type_stop_watch").click(function(){
+            $("#stop").hide();
+            });
+            $("#button_type_timer").click(function(){
+            $("#stop_watch").hide();
+            $("#timer").show();
+            });
+            $("#button_type_stop_watch").click(function(){
+            $("#timer").hide();
+            $("#stop_watch").show();
+            });
+            $("button_type_timer").click(function(){
+            $("#stop_watch").fadeOut("slow");
+            $("#timer").fadeIn("slow");
+            });
+            $("button_type_stop_watch").click(function(){
+            $("#timer").fadeOut("slow");
+            $("#stop_watch").fadeIn("slow");
+            });
+            $("#start").click(function(){
+            t = setTimeout(add, 1000);
+            $("#start").hide();
+            $("#stop").show();
+            $("#clear").show();
+            });
+            $("#stop").click(function(){
+            clearTimeout(t);
+            $("#stop").hide();
+            $("#start").show();
+            $("#clear").show();
+            });
+            $("#clear").click(function(){
+            clearTimeout(t);
+            $('#h1').text('00:00');
+            seconds = 0; minutes = 0;
+            $("#start").show();
+            $("#clear").show();
+            });
+        });
+        function add() {
+            seconds++;
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+            }
+            h1.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+            timer();
+        }
+    </script>
+    <script type="text/javascript">
+    jQuery(function ($) {
+        var timer = null,
+            startTime = null,
+            progress = $("#progress").shieldProgressBar({
+                min: 0,
+                max: 60,
+                value: 60,
+                layout: "circular",
+                layoutOptions: {
+                    circular: {
+                        width: 40,
+                        borderWidth: 0,
+                        color: "#1E98E4"
+                    }
+                },
+                text: {
+                    enabled: true,
+                    template: '<span style="font-size:20px;">{0:n1}</span> seconds'
+                },
+                reversed: true
+            }).swidget();
+        $("#start").shieldButton({
+            events: {
+                click: function () {
+                    clearInterval(timer);
+                    startTime = Date.now();
+                    timer = setInterval(updateProgress, 100);
+                }
+            }
+        });
+        $("#stop").shieldButton({
+            events: {
+                click: function () {
+                    clearInterval(timer);
+                }
+            }
+        });
+        function updateProgress() {
+            var remaining = 60 - (Date.now() - startTime) / 1000;
+            progress.value(remaining);
+            if (remaining <= 0) {
+                clearInterval(timer);
+            }
+        }
+    });
+</script>
 </head>
-<body>
-	<div id="main-container" style="background-color:red;width:100px;height:100px;">
+<body class="theme-light">
+<div>
+    <div class="container">
+        <button id="button_type_timer">Timer</button>
+        <button id="button_type_stop_watch">Stopwatch</button>
+        <div id="timer">
+            <h3> Timer </h3>
+            Minutes: <input type="number" id="min"> <br>
+            Seconds: <input type="number" id="sec">
+            <br> <br> <br>
+            <div id="progress" style="width: 200px; height: 200px; margin-bottom: 10px;"></div>
+            <button id="start">Start Timer</button>
+            <button id="stop">Stop Timer</button>
+        </div>
+        <div id= "stop_watch">
+            <h3> Stop Watch </h3>
+            <h1><time>00:00</time></h1>
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+            <button id="clear">Clear</button>
+        </div>
+    </div>
+</div>
 
-	</div>
+<style>
+    .container {
+        width:380px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    h3 {
+        font-family: "Century Gothic"; 
+        margin-left: auto;
+        margin-right: auto;
+        text align: center;
+        font-size: 420%;
+    }
+
+</style>
+
 </body>
 </html>
