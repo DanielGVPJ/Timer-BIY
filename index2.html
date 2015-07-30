@@ -1,22 +1,68 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<title></title>
-	<style type="text/css">
-	.half-circle {
-	    width: 200px;
-	    height: 100px;
-	    border-top-left-radius: 100px;
-	    border-top-right-radius: 100px;
-	    border: 10px solid gray;
-	    border-bottom: 0;
-	    
-	    -webkit-box-sizing: border-box;
-	    -moz-box-sizing: border-box;
-	    box-sizing: border-box;
-	}
-	</style>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		var secInput = 35;
+		var minInput = 2;
+		var secondsColor="#1E88E5";
+		var minutesColor="#1565C0";
+		var minutes=3.5;
+		var seconds=3.5-(2/60)*secInput;
+		var prevMinutes=3.5;
+		var prevSeconds=3.5-(2/60)*secInput;
+		var runningTime=0;
+		var Interval_clock;
+		function update_clock(){
+			runningTime++;
+			var c=document.getElementById("myCanvas");
+			var ctx=c.getContext("2d");
+			ctx.fillRect(0,0,300,300);
+			ctx.fillStyle="white";
+			ctx.fill();
+
+			ctx.beginPath();
+			ctx.strokeStyle=secondsColor;
+			ctx.arc(150, 150, 120, 1.5 * Math.PI, seconds * Math.PI);
+			ctx.lineWidth=50;
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.strokeStyle=minutesColor;
+			ctx.arc(150, 150, 72, 1.5 * Math.PI, minutes * Math.PI);
+			ctx.lineWidth=50;
+			ctx.stroke();
+
+			seconds = prevSeconds-((2/60)/100);
+			minutes = prevMinutes-((2/(minInput*60))/100);
+			if(seconds <= 1.5){
+				seconds=3.5;
+			}
+			if(minutes <= 1.5+((2/(minInput*60))*10)){
+				secondsColor="#F44336";
+				minutesColor="#D32F2F";
+			}
+			prevMinutes = minutes;
+			prevSeconds = seconds;
+			$("p").text(runningTime/100);
+		}
+		Interval_clock = setInterval(update_clock,0005);
+	});
+	</script>
 </head>
 <body>
-	<div class="half-circle"></div>
+	<canvas id="myCanvas" width="300" height="300" style="border:0px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.</canvas>
+	<p></p>
 </body>
 </html>
